@@ -959,7 +959,7 @@ func (m Model) renderProjects(width int) string {
 
 		// URL
 		if proj.URL != "" {
-			cardContent.WriteString(styles.LinkStyle.Render("  " + proj.URL))
+			cardContent.WriteString(styles.LinkStyle.Render(proj.URL))
 			cardContent.WriteString("\n")
 		}
 		cardContent.WriteString("\n")
