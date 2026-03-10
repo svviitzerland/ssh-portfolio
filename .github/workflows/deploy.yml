@@ -46,6 +46,8 @@ jobs:
               --name ${{ env.CONTAINER_NAME }} \
               --restart unless-stopped \
               -p 22:2222 \
+              -e UMAMI_URL=${{ secrets.UMAMI_URL }} \
+              -e UMAMI_WEBSITE_ID=${{ secrets.UMAMI_WEBSITE_ID }} \
               -v ssh-portfolio-keys:/app/.ssh \
               ${{ env.DOCKERHUB_REPO }}:latest
             sudo docker image prune -f

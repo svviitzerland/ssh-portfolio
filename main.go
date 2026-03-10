@@ -18,6 +18,7 @@ import (
 	"charm.land/wish/v2/logging"
 	"github.com/charmbracelet/ssh"
 
+	"ssh-portfolio/internal/analytics"
 	"ssh-portfolio/internal/data"
 	"ssh-portfolio/internal/ui"
 )
@@ -34,6 +35,8 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to load CV data", "error", err)
 	}
+
+	analytics.Init()
 
 	fmt.Println()
 	fmt.Println("  ╔══════════════════════════════════════════════════╗")
@@ -56,6 +59,7 @@ func main() {
 					"user", username,
 					"remote", s.RemoteAddr().String(),
 				)
+				analytics.TrackVisitor(username, s.RemoteAddr().String())
 				m := ui.NewModel(cv, username)
 				return m, []tea.ProgramOption{}
 			}),
