@@ -15,9 +15,11 @@ FROM alpine:3.21
 RUN apk --no-cache add ca-certificates
 
 RUN adduser -D -g '' appuser
-USER appuser
 
 WORKDIR /app
+RUN mkdir -p /app/.ssh && chown appuser:appuser /app/.ssh
+
+USER appuser
 
 COPY --from=builder /app/ssh-portfolio .
 
