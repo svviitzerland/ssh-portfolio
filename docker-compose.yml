@@ -1,0 +1,11 @@
+services:
+  ssh-portfolio:
+    build: .
+    ports:
+      - "2222:2222"
+    volumes:
+      - ssh-keys:/app/.ssh
+    restart: unless-stopped
+
+volumes:
+  ssh-keys:

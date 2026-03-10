@@ -1,0 +1,16 @@
+# Binaries
+ssh-portfolio
+*.exe
+
+# SSH keys (generated at runtime)
+.ssh/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
