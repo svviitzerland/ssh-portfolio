@@ -38,13 +38,13 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull ${{ env.DOCKERHUB_REPO }}:latest
-            docker stop ${{ env.CONTAINER_NAME }} || true
-            docker rm ${{ env.CONTAINER_NAME }} || true
-            docker run -d \
+            sudo docker pull ${{ env.DOCKERHUB_REPO }}:latest
+            sudo docker stop ${{ env.CONTAINER_NAME }} || true
+            sudo docker rm ${{ env.CONTAINER_NAME }} || true
+            sudo docker run -d \
               --name ${{ env.CONTAINER_NAME }} \
               --restart unless-stopped \
-              -p 2222:2222 \
+              -p 22:2222 \
               -v ssh-portfolio-keys:/app/.ssh \
               ${{ env.DOCKERHUB_REPO }}:latest
-            docker image prune -f
+            sudo docker image prune -f
