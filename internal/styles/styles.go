@@ -1,184 +1,192 @@
 package styles
 
 import (
+	"strings"
+
 	"charm.land/lipgloss/v2"
 )
 
-// ── Color Palette ──────────────────────────────────────────────────────
+// ── Color Palette ── Zinc Monochrome + Emerald (matching website) ──────
 var (
-	Primary    = lipgloss.Color("#7C3AED") // Purple
-	Secondary  = lipgloss.Color("#06B6D4") // Cyan
-	Accent     = lipgloss.Color("#F59E0B") // Amber
-	Success    = lipgloss.Color("#10B981") // Emerald
-	Danger     = lipgloss.Color("#EF4444") // Red
-	Muted      = lipgloss.Color("#6B7280") // Gray
-	TextLight  = lipgloss.Color("#F9FAFB") // Almost white
-	TextDim    = lipgloss.Color("#9CA3AF") // Gray-400
-	BgDark     = lipgloss.Color("#0F172A") // Slate-900
-	BgCard     = lipgloss.Color("#1E293B") // Slate-800
-	Border     = lipgloss.Color("#334155") // Slate-700
-	Highlight  = lipgloss.Color("#A78BFA") // Purple-400
-	Pink       = lipgloss.Color("#EC4899") // Pink-500
-	Blue       = lipgloss.Color("#3B82F6") // Blue-500
-	Green      = lipgloss.Color("#22C55E") // Green-500
+	// Zinc scale (main palette)
+	Zinc950 = lipgloss.Color("#09090b") // Deepest background
+	Zinc900 = lipgloss.Color("#18181b") // Card/panel background
+	Zinc800 = lipgloss.Color("#27272a") // Borders, dividers
+	Zinc700 = lipgloss.Color("#3f3f46") // Subtle borders
+	Zinc600 = lipgloss.Color("#52525b") // Line numbers, muted
+	Zinc500 = lipgloss.Color("#71717a") // Dim text, dates
+	Zinc400 = lipgloss.Color("#a1a1aa") // Secondary text
+	Zinc300 = lipgloss.Color("#d4d4d8") // Body text
+	Zinc200 = lipgloss.Color("#e4e4e7") // Bright text
+	Zinc100 = lipgloss.Color("#f4f4f5") // Headings
+	Zinc50  = lipgloss.Color("#fafafa") // Pure white text
+
+	// Accent — Emerald (sparingly)
+	Emerald500 = lipgloss.Color("#10b981")
+	Emerald400 = lipgloss.Color("#34d399")
+	Emerald300 = lipgloss.Color("#6ee7b7")
+
+	// Danger for glitch
+	Red500 = lipgloss.Color("#ef4444")
+	Red400 = lipgloss.Color("#f87171")
+
+	// Aliases for backward compat in rendering
+	Primary   = Zinc100
+	Secondary = Zinc400
+	Accent    = Emerald500
+	Muted     = Zinc500
+	TextLight = Zinc200
+	TextDim   = Zinc500
+	BgDark    = Zinc950
+	BgCard    = Zinc900
+	Border    = Zinc800
 )
 
 // ── Base Styles ────────────────────────────────────────────────────────
 var (
-	// App container
-	AppStyle = lipgloss.NewStyle().
-			Padding(1, 2)
-
-	// Header / title bar
-	HeaderStyle = lipgloss.NewStyle().
-			Bold(true).
-			Foreground(TextLight).
-			Background(Primary).
-			Padding(0, 2).
-			Align(lipgloss.Center)
-
-	// Logo / Name big title
+	// Logo / Name — clean white, bold
 	LogoStyle = lipgloss.NewStyle().
 			Bold(true).
-			Foreground(Primary)
+			Foreground(Zinc50)
 
 	// Subtitle
 	SubtitleStyle = lipgloss.NewStyle().
-			Foreground(Secondary).
+			Foreground(Zinc400).
 			Italic(true)
 
-	// Section title
+	// Section title — emerald accent, sparingly
 	SectionTitleStyle = lipgloss.NewStyle().
 				Bold(true).
-				Foreground(Accent).
+				Foreground(Zinc100).
 				Padding(0, 0, 1, 0)
+
+	// Section icon (the small icon before section titles)
+	SectionIconStyle = lipgloss.NewStyle().
+				Foreground(Emerald500)
 
 	// Normal text
 	TextStyle = lipgloss.NewStyle().
-			Foreground(TextLight)
+			Foreground(Zinc300)
 
 	// Dimmed text
 	DimTextStyle = lipgloss.NewStyle().
-			Foreground(TextDim)
+			Foreground(Zinc500)
 
 	// Bold text
 	BoldTextStyle = lipgloss.NewStyle().
 			Bold(true).
-			Foreground(TextLight)
+			Foreground(Zinc200)
 
-	// Link style
+	// Link style — emerald underline
 	LinkStyle = lipgloss.NewStyle().
-			Foreground(Secondary).
+			Foreground(Emerald400).
 			Underline(true)
 
 	// Card style with border
 	CardStyle = lipgloss.NewStyle().
 			BorderStyle(lipgloss.RoundedBorder()).
-			BorderForeground(Border).
-			Padding(1, 2)
+			BorderForeground(Zinc800).
+			Padding(1, 2).
+			MarginLeft(2)
 
-	// Highlighted card
+	// Highlighted card — slightly brighter border
 	HighlightCardStyle = lipgloss.NewStyle().
 				BorderStyle(lipgloss.RoundedBorder()).
-				BorderForeground(Primary).
-				Padding(1, 2)
+				BorderForeground(Zinc700).
+				Padding(1, 2).
+				MarginLeft(2)
 
-	// Tag / badge style
-	TagStyle = lipgloss.NewStyle().
-			Foreground(BgDark).
-			Background(Secondary).
-			Padding(0, 1)
-
-	// Skill tag
-	SkillTagStyle = lipgloss.NewStyle().
-			Foreground(TextLight).
-			Background(lipgloss.Color("#374151")).
-			Padding(0, 1)
-
-	// Active tab
+	// Active tab — white on zinc
 	ActiveTabStyle = lipgloss.NewStyle().
 			Bold(true).
-			Foreground(BgDark).
-			Background(Primary).
+			Foreground(Zinc950).
+			Background(Zinc200).
 			Padding(0, 2)
 
 	// Inactive tab
 	InactiveTabStyle = lipgloss.NewStyle().
-				Foreground(TextDim).
-				Background(lipgloss.Color("#1E293B")).
+				Foreground(Zinc500).
+				Background(Zinc900).
 				Padding(0, 2)
 
-	// Status bar at bottom
-	StatusBarStyle = lipgloss.NewStyle().
-			Foreground(TextDim).
-			Padding(1, 0, 0, 0)
-
-	// Bullet point
+	// Bullet point — emerald
 	BulletStyle = lipgloss.NewStyle().
-			Foreground(Primary)
+			Foreground(Emerald500)
 
 	// Date range style
 	DateStyle = lipgloss.NewStyle().
-			Foreground(Muted).
+			Foreground(Zinc500).
 			Italic(true)
 
 	// Divider
 	DividerStyle = lipgloss.NewStyle().
-			Foreground(Border)
+			Foreground(Zinc800)
 
 	// Scrollbar indicator
 	ScrollStyle = lipgloss.NewStyle().
-			Foreground(Primary)
+			Foreground(Zinc400)
 
-	// Achievement highlight
+	// Achievement highlight — bright white
 	AchievementStyle = lipgloss.NewStyle().
-				Foreground(Accent).
+				Foreground(Zinc100).
 				Bold(true)
 
-	// Company name
+	// Company name — white, bold
 	CompanyStyle = lipgloss.NewStyle().
-			Foreground(Highlight).
+			Foreground(Zinc100).
 			Bold(true)
 
-	// Position title
+	// Position title — zinc-400
 	PositionStyle = lipgloss.NewStyle().
-			Foreground(Secondary)
+			Foreground(Zinc400)
 
-	// Project name
+	// Project name — emerald accent
 	ProjectNameStyle = lipgloss.NewStyle().
-				Foreground(Pink).
+				Foreground(Emerald400).
 				Bold(true)
 
-	// Stack/tech
+	// Stack/tech — zinc-400 italic
 	StackStyle = lipgloss.NewStyle().
-			Foreground(Green).
+			Foreground(Zinc400).
 			Italic(true)
+
+	// Tag style for skills
+	SkillTagStyle = lipgloss.NewStyle().
+			Foreground(Zinc300).
+			Background(Zinc800).
+			Padding(0, 1)
+
+	// Glitch text style
+	GlitchStyle = lipgloss.NewStyle().
+			Foreground(Red500).
+			Bold(true)
+
+	// Status bar key hints
+	KeyHintStyle = lipgloss.NewStyle().
+			Foreground(Zinc600)
+
+	// Status bar active key
+	KeyActiveStyle = lipgloss.NewStyle().
+			Foreground(Zinc400).
+			Bold(true)
 )
 
 // ── Helper Functions ───────────────────────────────────────────────────
 
 func Divider(width int) string {
-	line := ""
-	for i := 0; i < width; i++ {
-		line += "─"
-	}
-	return DividerStyle.Render(line)
+	return DividerStyle.Render(strings.Repeat("─", width))
 }
 
 func DoubleDivider(width int) string {
-	line := ""
-	for i := 0; i < width; i++ {
-		line += "═"
-	}
-	return DividerStyle.Render(line)
+	return DividerStyle.Render(strings.Repeat("═", width))
 }
 
 func DottedDivider(width int) string {
-	line := ""
-	for i := 0; i < width; i++ {
-		line += "·"
-	}
-	return DividerStyle.Render(line)
+	return DividerStyle.Render(strings.Repeat("·", width))
+}
+
+func ThinDivider(width int) string {
+	return lipgloss.NewStyle().Foreground(Zinc800).Render(strings.Repeat("╌", width))
 }
 
 func RenderTab(label string, active bool) string {
@@ -186,4 +194,16 @@ func RenderTab(label string, active bool) string {
 		return ActiveTabStyle.Render(label)
 	}
 	return InactiveTabStyle.Render(label)
+}
+
+// GradientBar renders a simple gradient-like bar using block characters
+func GradientBar(width int, progress float64) string {
+	filled := int(float64(width) * progress)
+	if filled > width {
+		filled = width
+	}
+
+	bar := lipgloss.NewStyle().Foreground(Emerald500).Render(strings.Repeat("█", filled))
+	empty := lipgloss.NewStyle().Foreground(Zinc800).Render(strings.Repeat("░", width-filled))
+	return bar + empty
 }
