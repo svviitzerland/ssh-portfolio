@@ -1,11 +1,19 @@
 resource "aws_security_group" "ssh_portfolio" {
   name        = "ssh-portfolio"
-  description = "Allow SSH portfolio access"
+  description = "Allow SSH portfolio and admin access"
 
-  # Port 22 — mapped to container 2222, so users just `ssh` normally
+  # Port 22 — SSH portfolio (public)
   ingress {
     from_port   = 22
     to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Port 2222 — EC2 admin SSH
+  ingress {
+    from_port   = 2222
+    to_port     = 2222
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
